@@ -13,11 +13,11 @@ npm install bo01ean/boolean-debug
 Require the library with it's name-space passed to it's constructor.
 
 
-```file.js
+```
 
 var debug = require('boolean-debug')('info');
 debug('hai!');
-
+```
 
 
 ## Run node with DEBUG set to name-space;
