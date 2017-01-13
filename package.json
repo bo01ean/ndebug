@@ -1,5 +1,5 @@
 {
-  "name": "debug",
+  "name": "ndebug",
   "version": "1.0.0",
   "description": "A wrapper to node-debug with line numbers and other sugar",
   "main": "debug.js",
