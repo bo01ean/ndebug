@@ -1,35 +1,44 @@
 module.exports = function (space, depth = 2) {
-  Object.defineProperty(global, '__stack', {
-    get: function () {
-      var orig = Error.prepareStackTrace;
-      Error.prepareStackTrace = function (_, stack) {
+  
+  if (Object.getOwnPropertyDescriptor(global, '__stack') === undefined) {
+    Object.defineProperty(global, '__stack', {
+      get: function () {
+        var orig = Error.prepareStackTrace;
+        Error.prepareStackTrace = function (_, stack) {
+          return stack;
+        };
+        var err = new Error;
+        Error.captureStackTrace(err, arguments.callee);
+        var stack = err.stack;
+        Error.prepareStackTrace = orig;
         return stack;
-      };
-      var err = new Error;
-      Error.captureStackTrace(err, arguments.callee);
-      var stack = err.stack;
-      Error.prepareStackTrace = orig;
-      return stack;
-    }
-  });
+      }
+    });
+  }
 
-  Object.defineProperty(global, '__line', {
-    get: function () {
-      return __stack[depth].getLineNumber();
-    }
-  });
+  if (Object.getOwnPropertyDescriptor(global, '__line') === undefined) {
+    Object.defineProperty(global, '__line', {
+      get: function () {
+        return __stack[depth].getLineNumber();
+      }
+    });
+  }
 
-  Object.defineProperty(global, '__function', {
-    get: function () {
-      return __stack[depth].getFunctionName();
-    }
-  });
+  if (Object.getOwnPropertyDescriptor(global, '__function') === undefined) {
+    Object.defineProperty(global, '__function', {
+      get: function () {
+        return __stack[depth].getFunctionName();
+      }
+    });
+  }
 
-  Object.defineProperty(global, '__file', {
-    get: function () {
-      return __stack[depth].getFileName();
-    }
-  });
+  if (Object.getOwnPropertyDescriptor(global, '__file') === undefined) {
+    Object.defineProperty(global, '__file', {
+      get: function () {
+        return __stack[depth].getFileName();
+      }
+    });
+  }
 
   function censor(censor) {
     var i = 0;
