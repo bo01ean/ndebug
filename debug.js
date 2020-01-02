@@ -1,7 +1,18 @@
 module.exports = function (space, depth = 2) {
+  const getGlobalThis = () => {
+    if (typeof globalThis !== 'undefined') return globalThis;
+    if (typeof self !== 'undefined') return self;
+    if (typeof window !== 'undefined') return window;
+    if (typeof global !== 'undefined') return global;
+    if (typeof this !== 'undefined') return this;
+    throw new Error('Unable to locate global `this`');
+  };
+
+  const g = getGlobalThis();
+
   
-  if (Object.getOwnPropertyDescriptor(global, '__stack') === undefined) {
-    Object.defineProperty(global, '__stack', {
+  if (Object.getOwnPropertyDescriptor(g, '__stack') === undefined) {
+    Object.defineProperty(g, '__stack', {
       get: function () {
         var orig = Error.prepareStackTrace;
         Error.prepareStackTrace = function (_, stack) {
@@ -16,27 +27,21 @@ module.exports = function (space, depth = 2) {
     });
   }
 
-  if (Object.getOwnPropertyDescriptor(global, '__line') === undefined) {
-    Object.defineProperty(global, '__line', {
-      get: function () {
-        return __stack[depth].getLineNumber();
-      }
+  if (Object.getOwnPropertyDescriptor(g, '__line') === undefined) {
+    Object.defineProperty(g, '__line', {
+      get: () => __stack[depth + 1].getLineNumber()
     });
   }
 
-  if (Object.getOwnPropertyDescriptor(global, '__function') === undefined) {
-    Object.defineProperty(global, '__function', {
-      get: function () {
-        return __stack[depth].getFunctionName();
-      }
+  if (Object.getOwnPropertyDescriptor(g, '__function') === undefined) {
+    Object.defineProperty(g, '__function', {
+      get: () => __stack[depth].getFunctionName()
     });
   }
 
-  if (Object.getOwnPropertyDescriptor(global, '__file') === undefined) {
-    Object.defineProperty(global, '__file', {
-      get: function () {
-        return __stack[depth].getFileName();
-      }
+  if (Object.getOwnPropertyDescriptor(g, '__file') === undefined) {
+    Object.defineProperty(g, '__file', {
+      get: () => __stack[depth].getFileName()
     });
   }
 
