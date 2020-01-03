@@ -9,11 +9,10 @@ module.exports = function (space, depth = 2) {
   };
 
   const g = getGlobalThis();
-
   
   if (Object.getOwnPropertyDescriptor(g, '__stack') === undefined) {
     Object.defineProperty(g, '__stack', {
-      get: function () {
+      get: () => {
         var orig = Error.prepareStackTrace;
         Error.prepareStackTrace = function (_, stack) {
           return stack;
