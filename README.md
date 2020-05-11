@@ -5,7 +5,7 @@ A wrapper to node-debug with line numbers and other magic
 ## Install
 
 ```
-npm install bo01ean/boolean-debug
+yarn add bo01ean/ndebug
 ```
 
 ## usage
@@ -15,7 +15,7 @@ Require the library with it's name-space passed to it's constructor.
 
 ```
 
-var debug = require('boolean-debug')('info');
+const debug = require('ndebug')('info');
 debug('hai!');
 ```
 
@@ -23,8 +23,8 @@ debug('hai!');
 ## Run node with DEBUG set to name-space;
 
 ```
-DEBUG=info files.js
-
+DEBUG=info node index.js # OR
+DEBUG=info node -e "const debug = require('ndebug')('info'); debug('hai\!');"
 ```
 
 :)
