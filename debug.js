@@ -66,6 +66,6 @@ module.exports = (space = 'default', depth = 3) => {
     const line = __line ? `${__line}` : '';
     const filePath = __file ? `${path.basename(__file)}` : '';
     const fileInfo = filePath ? `${filePath}:${line}${func}` : '';
-    bug(`${fileInfo}${fmtChunks.join(' ')}`, ...reduced);
+    bug(`${fileInfo}${fmtChunks.join(' ')} `, ...reduced);
   };
 };
